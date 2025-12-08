@@ -1,0 +1,17 @@
+:root {
+}
+
+.AttackButtonStyle {
+    background-color: rgb(236, 48, 206);
+    -unity-background-scale-mode: stretch-to-fill;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
+    border-bottom-right-radius: 13px;
+    border-bottom-left-radius: 13px;
+    width: 100px;
+    height: 100px;
+}
+
+.AttackButtonStyle:hover {
+    scale: 1.1 1.1 1.1;
+}

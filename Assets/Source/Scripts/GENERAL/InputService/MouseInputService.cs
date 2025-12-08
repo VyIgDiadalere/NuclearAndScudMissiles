@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using Source.Scripts.Core;
+using Source.Scripts.GENERAL.Extensions;
 using UnityEngine;
 
 namespace Source.Scripts.GENERAL.InputService
@@ -6,21 +7,27 @@ namespace Source.Scripts.GENERAL.InputService
     public class MouseInputService : IInputService
     {
         private const int LeftMouseButtonIndex = 0;
+        private const float DragThreshold = 10f;
+        private const float TapTimeThreshold = 0.3f;
+        private const float MouseSensitivity = 50f;
         
-        private float _dragThreshold = 10f;
-        private float _tapTimeThreshold = 0.3f;
+        private readonly ReactiveProperty<bool> _isTouching = new ReactiveProperty<bool>();
+        private readonly ReactiveProperty<System.Numerics.Vector2> _currentTouchPosition = new ReactiveProperty<System.Numerics.Vector2>();
+        private readonly ReactiveProperty<System.Numerics.Vector2> _movementDelta  = new ReactiveProperty<System.Numerics.Vector2>();
+        private readonly ReactiveProperty<System.Numerics.Vector2> _releasePoint  = new ReactiveProperty<System.Numerics.Vector2>();
+
         private Vector2 _startPos;
         private Vector2 _previousPos;
         private float _startTime;
         private bool _isDragging;
         private bool _isActiveInput = true;
-        private float _mouseSensitivity = 50f;
-        
-        public ReactiveProperty<bool> IsTouching { get; private set; } = new ReactiveProperty<bool>();
-        public ReactiveProperty<Vector2> CurrentTouchPosition { get; private set; } = new ReactiveProperty<Vector2>();
-        public ReactiveProperty<Vector2> MovementDelta { get; private set; } = new ReactiveProperty<Vector2>();
-        public ReactiveProperty<Vector2> ReleasePoint { get; private set; } = new ReactiveProperty<Vector2>();
-        
+
+
+        public IReadOnlyReactiveProperty<bool> IsTouching  => _isTouching;
+        public IReadOnlyReactiveProperty<System.Numerics.Vector2> CurrentTouchPosition => _currentTouchPosition;
+        public IReadOnlyReactiveProperty<System.Numerics.Vector2> MovementDelta => _movementDelta;
+        public IReadOnlyReactiveProperty<System.Numerics.Vector2> ReleasePoint => _releasePoint;
+
         public void Enable()
         {
             _isActiveInput = true;
@@ -42,10 +49,10 @@ namespace Source.Scripts.GENERAL.InputService
             bool isMouseUp = Input.GetMouseButtonUp(LeftMouseButtonIndex);
             bool isMousePressed = Input.GetMouseButton(LeftMouseButtonIndex);
 
-            IsTouching.Value = isMousePressed;
+            _isTouching.Value = isMousePressed;
 
             Vector2 mousePos = Input.mousePosition;
-            CurrentTouchPosition.Value = mousePos;
+            _currentTouchPosition.Value = mousePos.ToNumericsVector2();
             
             if (!_isActiveInput) return;
 
@@ -55,37 +62,37 @@ namespace Source.Scripts.GENERAL.InputService
                 _previousPos = mousePos;
                 _startTime = Time.time;
                 _isDragging = false;
-                MovementDelta.Value = Vector2.zero;
+                _movementDelta.Value = Vector2.zero.ToNumericsVector2();
             }
             
             if (isMousePressed)
             {
-                Vector2 currentDelta = (mousePos - _previousPos) * _mouseSensitivity;
+                Vector2 currentDelta = (mousePos - _previousPos) * MouseSensitivity;
                 float totalDistance = Vector2.Distance(_startPos, mousePos);
                 
-                if (!_isDragging && totalDistance > _dragThreshold)
+                if (!_isDragging && totalDistance > DragThreshold)
                 {
                     _isDragging = true;
                 }
                 
-                MovementDelta.Value = _isDragging ? currentDelta : Vector2.zero;
+                _movementDelta.Value = _isDragging ? currentDelta.ToNumericsVector2() : Vector2.zero.ToNumericsVector2();
             }
             else
             {
-                MovementDelta.Value = Vector2.zero;
+                _movementDelta.Value = Vector2.zero.ToNumericsVector2();
             }
 
             if (isMouseUp)
             {
                 float duration = Time.time - _startTime;
                 
-                if (!_isDragging && duration <= _tapTimeThreshold)
+                if (!_isDragging && duration <= TapTimeThreshold)
                 {
-                    ReleasePoint.Value = mousePos;
+                    _releasePoint.Value = mousePos.ToNumericsVector2();
                 }
 
                 _isDragging = false;
-                MovementDelta.Value = Vector2.zero;
+                _movementDelta.Value = Vector2.zero.ToNumericsVector2();
             }
             
             _previousPos = mousePos;

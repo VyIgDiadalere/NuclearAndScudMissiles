@@ -1,4 +1,5 @@
 ﻿using Source.Scripts.GENERAL.Extensions.ViewExtensions;
+using Source.Scripts.View.Interfaces;
 using UnityEngine;
 
 namespace Source.Scripts.GENERAL

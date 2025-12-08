@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.View
 {
     public class Messile : MonoBehaviour
     {

@@ -1,8 +1,6 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.View
 {
     public class Curve : MonoBehaviour
     {
