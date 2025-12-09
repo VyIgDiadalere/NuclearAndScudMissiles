@@ -1,10 +1,14 @@
-﻿using Source.Scripts.GENERAL.Extensions.ViewExtensions;
+﻿using Source.Scripts.GENERAL.Extensions;
+using Source.Scripts.GENERAL.Extensions.ViewExtensions;
 using Source.Scripts.View.Interfaces;
 using UnityEngine;
+using System.Numerics;
+using Source.Scripts.Core;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Source.Scripts.GENERAL
 {
-    public class Raycaster: MonoBehaviour
+    public class RaycasterService: MonoBehaviour , IRaycasterService
     {
         [SerializeField] private LayerMask _terrainLayerMask;
         [SerializeField] private LayerMask _selectableOjbectLayerMask;
@@ -16,10 +20,10 @@ namespace Source.Scripts.GENERAL
         {
             _camera = Camera.main;
         }
-
-        public ISelectableObject TryGetSelectableObject(Vector2 position)
+        
+        public ISelectableObject TryGetSelectableObject(System.Numerics.Vector2 screenPosition)
         {
-            var ray = _camera.ScreenPointToRay(position);
+            var ray = _camera.ScreenPointToRay(screenPosition.ToUnityEngineVector2());
             
             if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _selectableOjbectLayerMask))
             {
@@ -37,9 +41,9 @@ namespace Source.Scripts.GENERAL
             return null;
         }
 
-        public Vector3? TryGetTerrainPoint(Vector2 position)
+        public Vector3? TryGetTerrainPoint(System.Numerics.Vector2 screenPosition)
         {
-            var ray = _camera.ScreenPointToRay(position);
+            var ray = _camera.ScreenPointToRay(screenPosition.ToUnityEngineVector2());
             
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _terrainLayerMask))
             {
@@ -48,7 +52,7 @@ namespace Source.Scripts.GENERAL
                     return null;
                 }
                 
-                return hit.point;
+                return hit.point.ToNumericsVector3();
             }
 
             return null;

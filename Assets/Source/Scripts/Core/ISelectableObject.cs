@@ -1,6 +1,4 @@
-﻿using UniRx;
-
-namespace Source.Scripts
+﻿namespace Source.Scripts.Core
 {
     public interface ISelectableObject
     {

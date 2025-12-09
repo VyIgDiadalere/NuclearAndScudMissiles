@@ -1,95 +1,64 @@
-﻿using System.Numerics;
-using Source.Scripts.Core;
-using Source.Scripts.GENERAL.Extensions;
+﻿using Source.Scripts.Core;
 using Source.Scripts.GENERAL.InputService;
-using Source.Scripts.View.Interfaces;
+using Vector2 = System.Numerics.Vector2;
 
 namespace Source.Scripts.GENERAL.SelectionSystem
 {
     public class MainSelectionBehavior : IBaseBehavior
     {
         private readonly IInputService _inputService;
-        private readonly Raycaster _mainRaycaster;
+        private readonly RaycasterService _mainRaycasterService;
         private readonly SelectedObjectViewHandler _selectedObjectViewHandler;
+        
+        private ISelectableObject _currentSelectableObject;
 
-        private CompositeDisposable _disposables = new CompositeDisposable();
-        private CompositeDisposable _selectionDisposable = new CompositeDisposable();
-
-        public ReactiveProperty<ISelectableObject> CurrentSelectableObject { get; private set; } = new();
-
-        public MainSelectionBehavior(Raycaster mainRaycaster, IInputService inputService,
-            SelectedObjectViewHandler viewHandler)
+        public MainSelectionBehavior(RaycasterService mainRaycasterService, IInputService inputService, SelectedObjectViewHandler viewHandler)
         {
-            _mainRaycaster = mainRaycaster;
+            _mainRaycasterService = mainRaycasterService;
             _inputService = inputService;
             _selectedObjectViewHandler = viewHandler;
         }
 
         public void StartBehavior()
         {
-            _disposables?.Dispose();
-            _disposables = new CompositeDisposable();
-            SubscribeToInputService(_disposables);
+            _inputService.ReleasePoint.Changed += TrySelectObject;
         }
 
         public void StopBehavior()
         {
-            _disposables?.Dispose();
+            if (_currentSelectableObject != null)
+            {
+                _currentSelectableObject.IsSelected.Changed -= ClearSelection;
+            }
+            
+            _selectedObjectViewHandler.RefreshView(null);
+            _inputService.ReleasePoint.Changed -= TrySelectObject;
         }
 
         private void TrySelectObject(Vector2 touchPosition)
         {
-            var selectableObject = _mainRaycaster.TryGetSelectableObject(touchPosition.ToUnityEngineVector2());
+            var selectableObject = _mainRaycasterService.TryGetSelectableObject(touchPosition);
             
             if (selectableObject != null)
             {
-                _selectionDisposable?.Dispose();
-                _selectionDisposable = new CompositeDisposable();
-                CurrentSelectableObject?.Value?.RemoveSelection();
-                CurrentSelectableObject.Value = null;
-                CurrentSelectableObject.Value = selectableObject;
-                CurrentSelectableObject.Value.Select();
-
-                ///**/CurrentSelectableObject?.Value?.IsSelected.Changed += ;
+                _currentSelectableObject?.RemoveSelection();
+                _currentSelectableObject = selectableObject;
+                _currentSelectableObject.Select();
+                _selectedObjectViewHandler.RefreshView(selectableObject);
+                
+                _currentSelectableObject.IsSelected.Changed += ClearSelection;
             }
         }
 
-        private void SubscribeToInputService(CompositeDisposable disposable)
+        private void ClearSelection(bool isSelected)
         {
-            _inputService.ReleasePoint.Changed += TrySelectObject;
-            
-            /*_inputService.ReleasePoint
-                .Subscribe(position =>
-                {
-                    var selectableObject = _mainRaycaster.TryGetSelectableObject(position);
-
-                    if (selectableObject != null)
-                    {
-                        _selectionDisposable?.Dispose();
-                        _selectionDisposable = new CompositeDisposable();
-                        CurrentSelectableObject?.Value?.RemoveSelection();
-                        CurrentSelectableObject.Value = null;
-                        CurrentSelectableObject.Value = selectableObject;
-                        CurrentSelectableObject.Value.Select();
-
-                        CurrentSelectableObject?.Value?.IsSelected
-                            .Where(isSelected => isSelected == false)
-                            .Subscribe(_ =>
-                            {
-                                CurrentSelectableObject?.Value?.RemoveSelection();
-                                CurrentSelectableObject.Value = null;
-                                _selectionDisposable.Dispose();
-                            }).AddTo(_selectionDisposable);
-                    }
-                    else
-                    {
-                        
-                    }
-                }).AddTo(disposable);
-
-            CurrentSelectableObject.DistinctUntilChanged()
-                .Subscribe(_selectedObjectViewHandler.RefreshView)
-                .AddTo(disposable);*/
+            if (isSelected == false)
+            {
+                _currentSelectableObject.IsSelected.Changed -= ClearSelection;
+                _currentSelectableObject?.RemoveSelection();
+                _selectedObjectViewHandler.RefreshView(_currentSelectableObject);
+                _currentSelectableObject = null;
+            }
         }
     }
 }

@@ -8,9 +8,9 @@ namespace Source.Scripts.GENERAL.SelectionSystem
         private readonly MainSelectionBehavior _mainSelectionBehavior;
         private IBaseBehavior _baseBehavior;
         
-        public SelectionBehaviorManager(Raycaster mainRaycaster, IInputService inputService, SelectedObjectViewHandler selectedObjectViewHandler, CompositeDisposable disposables)
+        public SelectionBehaviorManager(RaycasterService mainRaycasterService, IInputService inputService, SelectedObjectViewHandler selectedObjectViewHandler)
         {
-            _mainSelectionBehavior = new MainSelectionBehavior(mainRaycaster, inputService, selectedObjectViewHandler);
+            _mainSelectionBehavior = new MainSelectionBehavior(mainRaycasterService, inputService, selectedObjectViewHandler);
             
             SetBehavior(_mainSelectionBehavior);
         }
