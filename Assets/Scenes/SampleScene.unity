@@ -209,9 +209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1741c08db0640b1aeb2aab45820e4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Source.Scripts.GENERAL.EntryPoint
-  _cameraMoverView: {fileID: 1378270010}
-  _raycaster: {fileID: 441968715}
-  _mainViewPanel: {fileID: 446536120}
 --- !u!114 &441968714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1312,6 +1309,10 @@ MonoBehaviour:
   _speed: 0.3
   _additionalSpeed: 0
   _maxHeightOffset: 1
+  _currentTime: 0
+  _tempHeight: 0
+  _currentHeight: 0
+  _maxHeight: 0
 --- !u!114 &2147422958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1332,6 +1333,8 @@ MonoBehaviour:
   - {fileID: 753962956}
   moveSpeed: 13
   rotationSpeed: 20
+  currentWaypointIndex: 0
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &8059659431137426987
 PrefabInstance:
   m_ObjectHideFlags: 0

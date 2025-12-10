@@ -1,5 +1,4 @@
-﻿using Source.Scripts.Core;
-using Source.Scripts.GENERAL.Extensions;
+﻿/*using Source.Scripts.GENERAL.Extensions;
 using UnityEngine;
 
 namespace Source.Scripts.GENERAL.InputService
@@ -21,8 +20,7 @@ namespace Source.Scripts.GENERAL.InputService
         private float _startTime;
         private bool _isDragging;
         private bool _isActiveInput = true;
-
-
+        
         public IReadOnlyReactiveProperty<bool> IsTouching  => _isTouching;
         public IReadOnlyReactiveProperty<System.Numerics.Vector2> CurrentTouchPosition => _currentTouchPosition;
         public IReadOnlyReactiveProperty<System.Numerics.Vector2> MovementDelta => _movementDelta;
@@ -98,4 +96,4 @@ namespace Source.Scripts.GENERAL.InputService
             _previousPos = mousePos;
         }
     }
-}
+}*/

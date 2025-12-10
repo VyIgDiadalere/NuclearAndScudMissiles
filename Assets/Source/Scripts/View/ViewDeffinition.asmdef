@@ -1,0 +1,16 @@
+{
+    "name": "ViewDeffinition",
+    "rootNamespace": "",
+    "references": [
+        "GUID:bc9495c97b0ae2944a22953512a38d60"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
