@@ -1,4 +1,4 @@
-﻿namespace Source.Scripts.GENERAL.Extensions
+﻿namespace Source.Scripts.View.Extensions
 {
     public static class VectorExtensions
     {

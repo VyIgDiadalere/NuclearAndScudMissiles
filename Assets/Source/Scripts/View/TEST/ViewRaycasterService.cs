@@ -1,48 +1,47 @@
-﻿using Source.Scripts.View.Interfaces;
-using UnityEngine;
-using System.Numerics;
-using Source.Scripts.Core;
+﻿using System;
+using Source.Scripts.Core.TEST;
 using Source.Scripts.View.Extensions;
-using Vector3 = System.Numerics.Vector3;
+using UnityEngine;
 
-namespace Source.Scripts.GENERAL
+namespace Source.Scripts.View.TEST
 {
-    public class RaycasterService: MonoBehaviour , IRaycasterService
+    [Serializable]
+    public class ViewRaycasterService: MonoBehaviour, ICoreRaycastService
     {
         [SerializeField] private LayerMask _terrainLayerMask;
         [SerializeField] private LayerMask _selectableOjbectLayerMask;
         [SerializeField] private LayerMask _uiLayerMask;
         
         private Camera _camera;
-        
+
         private void Awake()
         {
-            _camera = Camera.main;
+            _camera = Camera.main;    
         }
         
-        public ISelectableObject TryGetSelectableObject(System.Numerics.Vector2 screenPosition)
+        public int TryGetSelectableObject(float x, float y)
         {
-            var ray = _camera.ScreenPointToRay(screenPosition.ToUnityEngineVector2());
-            
-            if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _selectableOjbectLayerMask))
+            var ray = _camera.ScreenPointToRay(new Vector3(x, y));
+
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _selectableOjbectLayerMask))
             {
                 if (_uiLayerMask.IsContains(hit.collider.gameObject.layer))
                 {
-                    return null;
+                    return -1;
                 }
                 
-                if (hit.collider.TryGetComponent(out ISelectableObject selectable))
+                if (hit.collider.TryGetComponent(out SelectableEntityView selectable))
                 {
-                    return selectable;
+                    return selectable.Id;
                 }
             }
 
-            return null;
+            return -1;
         }
 
-        public Vector3? TryGetTerrainPoint(System.Numerics.Vector2 screenPosition)
+        public System.Numerics.Vector3? TryGetTerrainPoint(float x, float y)
         {
-            var ray = _camera.ScreenPointToRay(screenPosition.ToUnityEngineVector2());
+            var ray = _camera.ScreenPointToRay(new  Vector2(x, y));
             
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _terrainLayerMask))
             {

@@ -8,10 +8,7 @@ namespace Source.Scripts.GENERAL.Di_Installer
     {
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
-            /*containerBuilder.AddSingleton<IInputService>(_ =>
-            {
-                   // return new MouseInputService();
-            });*/
+
         }
     }
 }
