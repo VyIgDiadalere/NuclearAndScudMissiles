@@ -1,29 +1,38 @@
 ﻿using System;
-using Source.Scripts.Core.TEST;
+using Source.Scripts.Core.CoreInterfaces;
 using UnityEngine;
 
 namespace Source.Scripts.View.TEST
 {
     [Serializable]
-    public class CameraMoverView : MonoBehaviour
+    public class CameraMoverView : MonoBehaviour, IUpdatableView
     {
         [SerializeField] private Transform _cameraTransform;
         [SerializeField] private float _smoothSpeed = 1f;
         
-        private CoreWorld _world;
+        private IDragInputSystem _dragInputSystem;
 
-        public void Init(CoreWorld world)
+        private bool _isInialized = false;
+
+        public void Init(IDragInputSystem  clickInputSystem)
         {
-            _world = world;
+            _dragInputSystem = clickInputSystem;
+            
+            _isInialized = true;
         }
-
-        void Update()
+        
+        public void Refresh()
         {
-            var move = _world.CameraMovementData;
-
-            if (move.MoveOffsetX != 0 || move.MoveOffsetY != 0)
+            if (_isInialized == false)
             {
-                Vector3 targetPos = _cameraTransform.position + new Vector3(move.MoveOffsetX, 0, move.MoveOffsetY) * Time.deltaTime;
+                return;
+            }
+            
+            var move = _dragInputSystem.GetDragInputData();
+
+            if (move.DragX != 0 || move.DragY != 0)
+            {
+                Vector3 targetPos = _cameraTransform.position + new Vector3(move.DragX, 0, move.DragY) * Time.deltaTime;
                 _cameraTransform.position = Vector3.Lerp(_cameraTransform.position, targetPos, _smoothSpeed);
             }
         }

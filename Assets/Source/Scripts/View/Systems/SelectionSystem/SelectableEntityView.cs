@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Source.Scripts.View.TEST
+namespace Source.Scripts.View.Systems.SelectionSystem
 {
     public class SelectableEntityView : MonoBehaviour
     {

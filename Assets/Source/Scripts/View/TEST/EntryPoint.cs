@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using Source.Scripts.Core.TEST;
+using Source.Scripts.Core;
+using Source.Scripts.View.Systems.SelectionSystem;
 using UnityEngine;
 
 namespace Source.Scripts.View.TEST
@@ -9,26 +9,33 @@ namespace Source.Scripts.View.TEST
     public class EntryPoint : MonoBehaviour
     {
         [SerializeField] private InputView _inputView;
-        [SerializeField] private SelectionViewUpdater _selectionViewUpdater;
+        [SerializeField] private SelectionUpdaterView _selectionUpdaterView;
         [SerializeField] private ViewRaycasterService _raycasterService;
         [SerializeField] private CameraMoverView _cameraMoverView;
-        
-        private CoreWorld _world;
-        private List<ICoreSystem> _systems;
+
+        private ViewHub _viewHub;
+        private CoreWorld _coreWorld;
+        private CoreSystems _coreSystems;
 
         void Awake()
         {
-            _world = new CoreWorld(_raycasterService);
+            _coreWorld = new CoreWorld();
+            _coreSystems = new CoreSystems(_coreWorld);
+            _viewHub  = new ViewHub();
             
-            _inputView.Init(_world);
-            _selectionViewUpdater.Init(_world);
-            _cameraMoverView.Init(_world);
+            _inputView.Init(_coreSystems.ClickInputSystem, _coreSystems.DragInputSystem);
+            _selectionUpdaterView.Init(_coreSystems.SelectionSystem, _coreSystems.ClickInputSystem, _raycasterService);
+            _cameraMoverView.Init(_coreSystems.DragInputSystem);
+            
+            _viewHub.RegisterView(_inputView);
+            _viewHub.RegisterView(_selectionUpdaterView);
+            _viewHub.RegisterView(_cameraMoverView);
         }
 
         void Update()
         {
-            foreach (var system in _systems)
-                system.Update();
+            _viewHub.UpdateViews();
+            _coreSystems.UpdateCore();
         }
     }
 }

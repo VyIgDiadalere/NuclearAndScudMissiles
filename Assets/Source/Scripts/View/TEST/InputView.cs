@@ -1,28 +1,36 @@
-﻿using System;
-using Source.Scripts.Core.TEST;
+﻿using Source.Scripts.Core.CoreInterfaces;
 using UnityEngine;
 
 namespace Source.Scripts.View.TEST
 {
-    public class InputView : MonoBehaviour
+    public class InputView : MonoBehaviour, IUpdatableView
     {
         private const float DragThreshold = 10f;
         private const float DragSpeed = 20f;
-        
-        private CoreWorld _world;
+
+        private IDragInputSystem _dragInputSystem;
+        private IClickInputSystem _clickInputSystem;
         private Vector2 _startPos;
         private Vector2 _prevPos;
         private bool _isDragging;
 
-        public void Init(CoreWorld world)
-        {
-            _world = world;
-        }
-        
-        private void Update()
-        {
-            ref var input = ref _world.InputData;
+        private bool _isInitialized = false;
 
+        public void Init( IClickInputSystem clickInputSystem, IDragInputSystem dragInputSystem )
+        {
+            _clickInputSystem = clickInputSystem;
+            _dragInputSystem = dragInputSystem;
+
+            _isInitialized = true;
+        }
+
+        public void Refresh()
+        {
+            if (_isInitialized == false)
+            {
+                return;
+            }
+            
             Vector2 mousePos = Input.mousePosition;
             bool mousePressed = Input.GetMouseButton(0);
     
@@ -32,9 +40,7 @@ namespace Source.Scripts.View.TEST
                 _prevPos = mousePos;
                 _isDragging = false;
                 
-                input.Click = true;
-                input.XPosition = mousePos.x;
-                input.YPosition = mousePos.y;
+                _clickInputSystem.SetClickData(true, mousePos.x, mousePos.y );
             }
 
             if (mousePressed)
@@ -43,16 +49,15 @@ namespace Source.Scripts.View.TEST
 
                 if (!_isDragging && delta.magnitude > DragThreshold)
                     _isDragging = true;
+                
+                float dragX = delta.x * DragSpeed;
+                float dragY = delta.y * DragSpeed;
 
-                input.IsDragging = _isDragging;
-                input.DragX = delta.x * DragSpeed;
-                input.DragY = delta.y * DragSpeed;
+                _dragInputSystem.SetDragData(dragX, dragY);
             }
             else
             {
-                input.IsDragging = false;
-                input.DragX = 0;
-                input.DragY = 0;
+                _dragInputSystem.ResetDragData();
             }
 
             _prevPos = mousePos;

@@ -1,6 +1,7 @@
 ﻿using System;
-using Source.Scripts.Core.TEST;
+using Source.Scripts.Core.CoreInterfaces;
 using Source.Scripts.View.Extensions;
+using Source.Scripts.View.Systems.SelectionSystem;
 using UnityEngine;
 
 namespace Source.Scripts.View.TEST
@@ -19,7 +20,7 @@ namespace Source.Scripts.View.TEST
             _camera = Camera.main;    
         }
         
-        public int TryGetSelectableObject(float x, float y)
+        public int TryGetSelectableObjectId(float x, float y)
         {
             var ray = _camera.ScreenPointToRay(new Vector3(x, y));
 
