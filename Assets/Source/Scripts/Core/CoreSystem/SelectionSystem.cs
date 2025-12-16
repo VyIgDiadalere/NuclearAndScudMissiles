@@ -5,29 +5,27 @@ namespace Source.Scripts.Core.CoreSystem
 {
     public class SelectionSystem : ISelectionSystem
     {
-        private readonly CoreWorld _coreWorld;
+        private readonly DataHolder _dataHolder;
 
-        public SelectionSystem(CoreWorld coreWorld)
+        public SelectionSystem(DataHolder dataHolder)
         {
-            _coreWorld = coreWorld;
+            _dataHolder = dataHolder;
         }
         
         public SelectionData GetSelectionData()
         {
-            return _coreWorld.GetSelectionData();
+            return _dataHolder.GetSelectionData();
         }
 
         public void ResetSelectionChangedStatus()
         {
-            _coreWorld.GetSelectionData().Changed = false;
+            _dataHolder.GetSelectionData().Changed = false;
         }
 
         public void SetSelectionData(int hitId)
         {
-            
-            
-            ref var inputData = ref _coreWorld.GetClickInputData();
-            ref var selectionData = ref _coreWorld.GetSelectionData();
+            ref var inputData = ref _dataHolder.GetClickInputData();
+            ref var selectionData = ref _dataHolder.GetSelectionData();
             
             if (hitId != selectionData.SelectedId)
             {

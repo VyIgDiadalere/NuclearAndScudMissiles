@@ -5,30 +5,30 @@ namespace Source.Scripts.Core.CoreSystem
 {
     public class DragInputSystem :  IDragInputSystem
     {
-        private readonly CoreWorld _coreWorld;
+        private readonly DataHolder _dataHolder;
 
-        public DragInputSystem(CoreWorld coreWorld)
+        public DragInputSystem(DataHolder dataHolder)
         {
-            _coreWorld = coreWorld;
+            _dataHolder = dataHolder;
         }
 
         public DragInputData GetDragInputData()
         {
-            return _coreWorld.GetDragInputData();
+            return _dataHolder.GetDragInputData();
         }
 
         public void SetDragData(float xValue, float yValue)
         {
-            _coreWorld.GetDragInputData().IsDragging = true;
-            _coreWorld.GetDragInputData().DragX = -xValue;
-            _coreWorld.GetDragInputData().DragY = -yValue;
+            _dataHolder.GetDragInputData().IsDragging = true;
+            _dataHolder.GetDragInputData().DragX = -xValue;
+            _dataHolder.GetDragInputData().DragY = -yValue;
         }
 
         public void ResetDragData()
         {
-            _coreWorld.GetDragInputData().IsDragging = false;
-            _coreWorld.GetDragInputData().DragX = 0;
-            _coreWorld.GetDragInputData().DragY = 0;
+            _dataHolder.GetDragInputData().IsDragging = false;
+            _dataHolder.GetDragInputData().DragX = 0;
+            _dataHolder.GetDragInputData().DragY = 0;
         }
     }
 }

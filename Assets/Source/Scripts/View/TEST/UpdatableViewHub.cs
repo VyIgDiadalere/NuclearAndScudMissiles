@@ -2,7 +2,7 @@
 
 namespace Source.Scripts.View.TEST
 {
-    public class ViewHub
+    public class UpdatableViewHub
     {
         private List<IUpdatableView> _views = new();
 

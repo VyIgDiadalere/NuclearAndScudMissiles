@@ -24,14 +24,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299847730715947095}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.93803495, y: -0, z: -0, w: 0.34654078}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.02, z: 2.217}
-  m_LocalScale: {x: 1, y: 1, z: 0.95016}
+  m_LocalScale: {x: 1, y: 1, z: 1.2597221}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9079880240661452603}
   m_Father: {fileID: 419730304343653131}
-  m_LocalEulerAnglesHint: {x: 139.448, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1577865635985032446
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,7 +945,7 @@ Transform:
   m_GameObject: {fileID: 8012494050136830210}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.336, z: -0.174}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -996,7 +996,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 419730304343653131}
-  m_Layer: 0
+  - component: {fileID: 5961659035725201668}
+  - component: {fileID: 5733807061914514290}
+  - component: {fileID: 5386874488083582780}
+  - component: {fileID: 6316769843955565734}
+  - component: {fileID: 5226810121639187794}
+  m_Layer: 7
   m_Name: NuclearMissile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1021,6 +1026,86 @@ Transform:
   - {fileID: 5542472363587991588}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5961659035725201668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8879339120529532629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53837906c4b34d9e8e8d31f45107b6c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ViewDeffinition::Source.Scripts.View.TEST.EntityView
+--- !u!65 &5733807061914514290
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8879339120529532629}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.2823532, y: 2.5885925, z: 4.603689}
+  m_Center: {x: -0.00075781345, y: 0.79429626, z: 0.01291275}
+--- !u!114 &5386874488083582780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8879339120529532629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6bb4fbfebd54a56a4c3926d7198f37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ViewDeffinition::Source.Scripts.View.TEST.SelectableObjectView
+  Id: 1
+--- !u!65 &6316769843955565734
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8879339120529532629}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.2823532, y: 2.5885925, z: 4.603689}
+  m_Center: {x: -0.00075781345, y: 0.79429626, z: 0.01291275}
+--- !u!114 &5226810121639187794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8879339120529532629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6bb4fbfebd54a56a4c3926d7198f37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ViewDeffinition::Source.Scripts.View.TEST.SelectableObjectView
+  Id: 5
 --- !u!1 &8950320472684727461
 GameObject:
   m_ObjectHideFlags: 0

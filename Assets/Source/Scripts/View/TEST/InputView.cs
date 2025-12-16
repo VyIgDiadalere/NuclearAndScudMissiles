@@ -42,6 +42,10 @@ namespace Source.Scripts.View.TEST
                 
                 _clickInputSystem.SetClickData(true, mousePos.x, mousePos.y );
             }
+            else
+            {
+                _clickInputSystem.ResetClickData();
+            }
 
             if (mousePressed)
             {

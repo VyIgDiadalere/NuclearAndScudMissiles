@@ -5,28 +5,28 @@ namespace Source.Scripts.Core.CoreSystem
 {
     public class ClickInputSystem: IClickInputSystem
     {
-        private readonly CoreWorld _coreWorld;
+        private readonly DataHolder _dataHolder;
 
-        public ClickInputSystem(CoreWorld coreWorld)
+        public ClickInputSystem(DataHolder dataHolder)
         {
-            _coreWorld = coreWorld;
+            _dataHolder = dataHolder;
         }
 
         public ClickInputData GetClickInputData()
         {
-            return _coreWorld.GetClickInputData();
+            return _dataHolder.GetClickInputData();
         }
 
         public void SetClickData(bool click, float xPosition, float yPosition)
         {
-            _coreWorld.GetClickInputData().Click = true;
-            _coreWorld.GetClickInputData().XPosition = xPosition;
-            _coreWorld.GetClickInputData().YPosition = yPosition;
+            _dataHolder.GetClickInputData().Click = true;
+            _dataHolder.GetClickInputData().XPosition = xPosition;
+            _dataHolder.GetClickInputData().YPosition = yPosition;
         }
 
         public void ResetClickData()
         {
-            _coreWorld.GetClickInputData().Click = false;
+            _dataHolder.GetClickInputData().Click = false;
         }
     }
 }

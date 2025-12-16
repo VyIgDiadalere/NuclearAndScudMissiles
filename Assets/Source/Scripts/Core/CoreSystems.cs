@@ -12,7 +12,7 @@ namespace Source.Scripts.Core
 
         private List<IUpdatableSystem> _updatableSystems = new();
 
-        public CoreSystems(CoreWorld world)
+        public CoreSystems(DataHolder world)
         {
             _clickInputSystem  = new ClickInputSystem(world);
             _dragInputSystem = new DragInputSystem(world);
